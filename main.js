@@ -1,4 +1,5 @@
 status1 = "";
+object = [] ;
 function setup() {
 canvas = createCanvas(600,400);
 canvas.center();
@@ -18,6 +19,7 @@ function gotResult(error,results) {
     }
     else {
         console.log(results);
+        object = results ;
     }
 }
 
@@ -27,13 +29,15 @@ function preload() {
 
 function draw() {
     image(img,0,0,600,400);
-    fill("#FF0000");
-    text("Dog" , 75 , 65);
-    textSize(30);
-    noFill();
-    stroke("#FF0000");
-    strokeWeight(2)
-    rect(90,70,300,280);
-    text("Cat" , 270 , 100 );
-    rect(270,100,280,265);
+    if (status1 != "") {
+        for (let i = 0; i < object.length; i++) {
+            document.getElementById("status").innerHTML = "Status : Object Detected" ;
+            fill("#FF0000");
+            percent = floor(objects[i].confidence*100);
+            text(object[i].label + "" + percent + "%" , object[i].x + 15,object[i].y + 15);
+            noFill();
+            stroke("#FF0000");
+            rect(object[i].x,object[i].y,object[i].width,object[i].height);
+        }
+    }
 }
